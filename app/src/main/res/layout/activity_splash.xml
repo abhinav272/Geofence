@@ -9,8 +9,34 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.abhinav.geofence.SplashActivity">
 
-    <TextView
+    <RelativeLayout
+        android:layout_centerInParent="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/img1"
+            android:src="@drawable/location_icon_1_svg"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+
+        <ImageView
+            android:id="@+id/img2"
+            android:layout_below="@+id/img1"
+            android:src="@drawable/location_icon_2_svg"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+
+        <ImageView
+            android:layout_toRightOf="@+id/img1"
+            android:src="@drawable/location_icon_3_svg"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+
+        <ImageView
+            android:layout_toRightOf="@+id/img2"
+            android:layout_below="@+id/img1"
+            android:src="@drawable/location_icon_4_svg"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+    </RelativeLayout>
 </RelativeLayout>

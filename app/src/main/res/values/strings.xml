@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Geofence</string>
+    <string name="text_start_location_monitoring">Start Location Monitoring</string>
+    <string name="text_start_geofencing_monitoring">Start Geofencing Monitoring</string>
+    <string name="text_stop_geofencing_monitoring">Stop Geofencing Monitoring</string>
 </resources>

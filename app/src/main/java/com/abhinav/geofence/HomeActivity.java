@@ -1,6 +1,8 @@
 package com.abhinav.geofence;
 
 import android.Manifest;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
@@ -16,11 +18,16 @@ import android.widget.Button;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallbacks;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingRequest;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by abhinav.sharma on 9/26/2016.
@@ -95,22 +102,49 @@ public class HomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Geofence geofence = new Geofence.Builder()
                         .setRequestId(HOME_GEOFENCE)
-                        .setCircularRegion(28.606181, 77.346082, 100.0f)
+                        .setCircularRegion(28.6071506, 77.3466258, 100.0f)
                         .setExpirationDuration(Geofence.NEVER_EXPIRE)
                         .setNotificationResponsiveness(1000)
                         .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT | Geofence.GEOFENCE_TRANSITION_DWELL)
+                        .setLoiteringDelay(1000)
                         .build();
 
                 GeofencingRequest geofencingRequest = new GeofencingRequest.Builder()
-                        .setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER)
+                        .setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER | Geofence.GEOFENCE_TRANSITION_DWELL)
                         .addGeofence(geofence).build();
+                Intent intent = new Intent(HomeActivity.this, MyService.class);
+                PendingIntent pendingIntent = PendingIntent.getService(HomeActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                if (apiClient.isConnected()) {
+                    if (ActivityCompat.checkSelfPermission(HomeActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 272);
+                        }
+                        return;
+                    }
+                    LocationServices.GeofencingApi.addGeofences(apiClient, geofencingRequest, pendingIntent)
+                            .setResultCallback(new ResultCallbacks<Status>() {
+                                @Override
+                                public void onSuccess(@NonNull Status status) {
+                                    Log.e("onSuccess: ", "GeofencingRequest added successfully");
+                                }
+
+                                @Override
+                                public void onFailure(@NonNull Status status) {
+                                    Log.e("onFailure: ", "GeofencingRequest not added");
+                                }
+                            });
+                }
             }
         });
 
         stopGeofencingMonitoring.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Log.e("onClick: ", "Geofencing monitoring stopped");
+                List<String> geofences = new ArrayList<String>();
+                geofences.add(HOME_GEOFENCE);
+                LocationServices.GeofencingApi.removeGeofences(apiClient, geofences);
             }
         });
 

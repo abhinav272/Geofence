@@ -107,16 +107,16 @@ public class HomeActivity extends AppCompatActivity {
                         .setExpirationDuration(Geofence.NEVER_EXPIRE)
                         .setNotificationResponsiveness(1000)
                         .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT | Geofence.GEOFENCE_TRANSITION_DWELL)
-                        .setLoiteringDelay(1000)
+                        .setLoiteringDelay(5000)
                         .build();
 
                 Geofence geofenceGIP = new Geofence.Builder()
                         .setRequestId(GIP)
                         .setCircularRegion(28.567706, 77.326010, 100.0f)
-                        .setExpirationDuration(5000)
+                        .setExpirationDuration(Geofence.NEVER_EXPIRE)
                         .setNotificationResponsiveness(1000)
                         .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT | Geofence.GEOFENCE_TRANSITION_DWELL)
-                        .setLoiteringDelay(1000)
+                        .setLoiteringDelay(5000)
                         .build();
 
                 GeofencingRequest geofencingRequest = new GeofencingRequest.Builder()
@@ -155,6 +155,7 @@ public class HomeActivity extends AppCompatActivity {
                 Log.e("onClick: ", "Geofencing monitoring stopped");
                 List<String> geofences = new ArrayList<String>();
                 geofences.add(HOME_GEOFENCE);
+                geofences.add(GIP);
                 LocationServices.GeofencingApi.removeGeofences(apiClient, geofences);
             }
         });

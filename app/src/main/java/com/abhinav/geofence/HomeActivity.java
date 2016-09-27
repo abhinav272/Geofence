@@ -35,6 +35,7 @@ import java.util.List;
 public class HomeActivity extends AppCompatActivity {
 
     private static final String HOME_GEOFENCE = "A-97,Sector 55, NOIDA";
+    private static final String GIP = "GIP Mall Noida";
     private Button startLocationMonitoring, startGeofencingMonitoring, stopGeofencingMonitoring;
     private GoogleApiClient apiClient = null;
 
@@ -109,9 +110,19 @@ public class HomeActivity extends AppCompatActivity {
                         .setLoiteringDelay(1000)
                         .build();
 
+                Geofence geofenceGIP = new Geofence.Builder()
+                        .setRequestId(GIP)
+                        .setCircularRegion(28.567706, 77.326010, 100.0f)
+                        .setExpirationDuration(5000)
+                        .setNotificationResponsiveness(1000)
+                        .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT | Geofence.GEOFENCE_TRANSITION_DWELL)
+                        .setLoiteringDelay(1000)
+                        .build();
+
                 GeofencingRequest geofencingRequest = new GeofencingRequest.Builder()
                         .setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER | Geofence.GEOFENCE_TRANSITION_DWELL)
-                        .addGeofence(geofence).build();
+                        .addGeofence(geofence)
+                        .addGeofence(geofenceGIP).build();
                 Intent intent = new Intent(HomeActivity.this, MyService.class);
                 PendingIntent pendingIntent = PendingIntent.getService(HomeActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 

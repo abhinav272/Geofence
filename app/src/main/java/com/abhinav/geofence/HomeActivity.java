@@ -37,7 +37,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private static final String HOME_GEOFENCE = "A-97,Sector 55, NOIDA";
     private static final String GIP = "GIP Mall Noida";
-    private Button startLocationMonitoring, startGeofencingMonitoring, stopGeofencingMonitoring;
+    private Button startLocationMonitoring, startGeofencingMonitoring, stopGeofencingMonitoring, stopLocationMonitoring, showMap;
     private GoogleApiClient apiClient = null;
 
     @Override
@@ -66,7 +66,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        apiClient.disconnect();
+//        apiClient.disconnect();
     }
 
     private void setupUI() {
@@ -74,6 +74,9 @@ public class HomeActivity extends AppCompatActivity {
         startLocationMonitoring = (Button) findViewById(R.id.btn1);
         startGeofencingMonitoring = (Button) findViewById(R.id.btn2);
         stopGeofencingMonitoring = (Button) findViewById(R.id.btn3);
+        stopLocationMonitoring = (Button) findViewById(R.id.btn4);
+        showMap = (Button) findViewById(R.id.btn5);
+
 
         startLocationMonitoring.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,6 +161,21 @@ public class HomeActivity extends AppCompatActivity {
                 geofences.add(HOME_GEOFENCE);
                 geofences.add(GIP);
                 LocationServices.GeofencingApi.removeGeofences(apiClient, geofences);
+            }
+        });
+
+        stopLocationMonitoring.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                apiClient.disconnect();
+                Toast.makeText(HomeActivity.this, "Location Monitoring Stopped", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        showMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Todo add code for adding Map Activity
             }
         });
 

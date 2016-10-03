@@ -3,4 +3,6 @@
     <string name="text_start_location_monitoring">Start Location Monitoring</string>
     <string name="text_start_geofencing_monitoring">Start Geofencing Monitoring</string>
     <string name="text_stop_geofencing_monitoring">Stop Geofencing Monitoring</string>
+    <string name="text_stop_location_monitoring">Stop Location Monitioring</string>
+    <string name="text_show_map">Show Map</string>
 </resources>

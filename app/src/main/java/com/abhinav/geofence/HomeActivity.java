@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -193,7 +194,7 @@ public class HomeActivity extends AppCompatActivity {
         if(requestCode == 272
                 && grantResults[0] == PackageManager.PERMISSION_GRANTED
                 && grantResults[1] == PackageManager.PERMISSION_GRANTED){
-
+            Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show();
         }
     }
 }

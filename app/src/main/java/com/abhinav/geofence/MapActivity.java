@@ -2,6 +2,7 @@ package com.abhinav.geofence;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -12,6 +13,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -24,7 +27,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map_activity);
 
-        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
 
@@ -41,11 +44,20 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             return;
         }
         googleMap.setMyLocationEnabled(true);
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 13));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 12));
 
         googleMap.addMarker(new MarkerOptions()
                 .title("Sydney")
                 .snippet("The most populous city in Australia.")
                 .position(sydney));
+
+        CircleOptions circleOptions = new CircleOptions()
+                .center( new LatLng(sydney.latitude, sydney.longitude) )
+                .radius(100)
+                .fillColor(0x40ff0000)
+                .strokeColor(Color.TRANSPARENT)
+                .strokeWidth(2);
+
+        googleMap.addCircle(circleOptions);
     }
 }

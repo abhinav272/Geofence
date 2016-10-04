@@ -175,7 +175,8 @@ public class HomeActivity extends AppCompatActivity {
         showMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Todo add code for adding Map Activity
+                Intent intent = new Intent(HomeActivity.this, MapActivity.class);
+                startActivity(intent);
             }
         });
 

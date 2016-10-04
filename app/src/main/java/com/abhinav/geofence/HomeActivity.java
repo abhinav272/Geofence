@@ -37,8 +37,10 @@ public class HomeActivity extends AppCompatActivity {
 
     private static final String HOME_GEOFENCE = "A-97,Sector 55, NOIDA";
     private static final String GIP = "GIP Mall Noida";
+    public static final String GEOFENCING_REQUEST = "geoFencingRequest";
     private Button startLocationMonitoring, startGeofencingMonitoring, stopGeofencingMonitoring, stopLocationMonitoring, showMap;
     private GoogleApiClient apiClient = null;
+    private Intent mapIntent = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -130,6 +132,13 @@ public class HomeActivity extends AppCompatActivity {
                 Intent intent = new Intent(HomeActivity.this, MyService.class);
                 PendingIntent pendingIntent = PendingIntent.getService(HomeActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+                GeofenceModel.List list = new GeofenceModel.List();
+                list.add(new GeofenceModel(28.6071506, 77.3466258, 100f, HOME_GEOFENCE));
+                list.add(new GeofenceModel(28.567706, 77.326010, 100f, GIP));
+
+                mapIntent = new Intent(HomeActivity.this, MapActivity.class);
+                mapIntent.putParcelableArrayListExtra(GEOFENCING_REQUEST, list);
+
                 if (apiClient.isConnected()) {
                     if (ActivityCompat.checkSelfPermission(HomeActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -160,7 +169,8 @@ public class HomeActivity extends AppCompatActivity {
                 List<String> geofences = new ArrayList<String>();
                 geofences.add(HOME_GEOFENCE);
                 geofences.add(GIP);
-                LocationServices.GeofencingApi.removeGeofences(apiClient, geofences);
+                if(apiClient.isConnected())
+                    LocationServices.GeofencingApi.removeGeofences(apiClient, geofences);
             }
         });
 
@@ -175,8 +185,9 @@ public class HomeActivity extends AppCompatActivity {
         showMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this, MapActivity.class);
-                startActivity(intent);
+                if (mapIntent != null) {
+                    startActivity(mapIntent);
+                }
             }
         });
 

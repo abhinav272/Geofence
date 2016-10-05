@@ -98,7 +98,6 @@ public class HomeActivity extends AppCompatActivity {
                     @Override
                     public void onLocationChanged(Location location) {
                         Log.e("onLocationChanged: ", "Location is: " + location.toString());
-                        Log.e("Lat Long: ", location.getLatitude() + " " + location.getLongitude());
                     }
                 });
             }

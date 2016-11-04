@@ -84,8 +84,8 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 LocationRequest locationRequest = LocationRequest.create()
-                        .setInterval(5000)
-                        .setFastestInterval(5000)
+                        .setInterval(1000)
+                        .setFastestInterval(1000)
                         .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
                 if (ActivityCompat.checkSelfPermission(HomeActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                         && ActivityCompat.checkSelfPermission(HomeActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
